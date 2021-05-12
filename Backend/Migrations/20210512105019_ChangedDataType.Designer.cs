@@ -3,14 +3,16 @@ using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(VehicleDBContext))]
-    partial class VehicleDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210512105019_ChangedDataType")]
+    partial class ChangedDataType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,6 +52,7 @@ namespace Backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VehicleVIN")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -63,7 +66,9 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.Vehicle", "Vehicle")
                         .WithMany("Attributes")
-                        .HasForeignKey("VehicleVIN");
+                        .HasForeignKey("VehicleVIN")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Vehicle");
                 });

@@ -1,5 +1,6 @@
 ﻿using Backend.Data;
 using Backend.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,15 @@ namespace Backend.Repositories
         {
             using (var db = new VehicleDBContext())
             {
-                return db.Vehicles.ToList<Vehicle>();
+                var query =  db.Vehicles
+                     .ToList();
+                foreach(Vehicle v in query)
+                {
+                    var item = await db.Vehicles.FindAsync(v.VIN);
+                    v.Attributes = await GetAttributesOfVehicle(v.VIN);
+                }
+
+                return query;
             }
         }
 
@@ -42,7 +51,9 @@ namespace Backend.Repositories
         {
             using (var db = new VehicleDBContext())
             {
-                return await db.Vehicles.FindAsync(VIN);
+                var item = await db.Vehicles.FindAsync(VIN);
+                item.Attributes = await GetAttributesOfVehicle(VIN);
+                return item;
             }
         }
 
@@ -70,7 +81,7 @@ namespace Backend.Repositories
         {
             using (var db = new VehicleDBContext())
             {
-                var item = await Get(attribute.Vehicle.VIN);
+                var item = await Get(attribute.VehicleVIN);
                 if (item != null)
                 {
                     db.VehicleAttributes.Add(attribute);

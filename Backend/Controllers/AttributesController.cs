@@ -22,7 +22,7 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult> PostAttributes([FromBody] VehicleAttribute attribute)
         {
-            var existingItem = await _repo.Get(attribute.Vehicle.VIN);
+            var existingItem = await _repo.Get(attribute.VehicleVIN);
             if (existingItem != null)
             {
                 await _repo.AddAttribute(attribute);

@@ -16,7 +16,7 @@ namespace Backend.Models
 
         public string ModelName { get; set; }
 
-        public ICollection<VehicleAttribute> Attributes { get; set; }
+        public IEnumerable<VehicleAttribute> Attributes { get; set; }
 
 
 
