@@ -9,6 +9,7 @@ namespace Backend.Data
 {
     public class VehicleDBContext: DbContext
     {
+        
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleAttribute> VehicleAttributes { get; set; }
 

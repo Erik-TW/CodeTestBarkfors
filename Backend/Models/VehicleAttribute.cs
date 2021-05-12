@@ -14,9 +14,7 @@ namespace Backend.Models
         public string Type { get; set; }
 
         public string Value { get; set; }
-
-        public string VIN { get; set; }
-
+        [Required]
         public Vehicle Vehicle { get; set; }
     }
 }
