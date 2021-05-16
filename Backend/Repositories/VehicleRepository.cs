@@ -52,7 +52,14 @@ namespace Backend.Repositories
             using (var db = new VehicleDBContext())
             {
                 var item = await db.Vehicles.FindAsync(VIN);
-                item.Attributes = await GetAttributesOfVehicle(VIN);
+                if(item != null)
+                {
+                    var attributes = await GetAttributesOfVehicle(VIN);
+                    if(attributes != null)
+                    {
+                    item.Attributes = attributes;
+                    }
+                }
                 return item;
             }
         }
